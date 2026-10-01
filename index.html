@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Chaitali & Vishal - Wedding Invitation</title>
+  <meta name="description" content="Join us in celebrating the wedding of Chaitali & Vishal on December 18th. Together Forever ♡" />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Caveat:wght@600;700&family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css" />
+  <!-- FontAwesome for cute icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <!-- Floating Heart Canvas for interactive background taps -->
+  <canvas id="tap-hearts-canvas"></canvas>
+
+  <!-- Cute Music Player Pill (Fixed Top Right) -->
+  <div class="music-pill" id="music-pill" title="Toggle Music">
+    <button class="music-btn" id="music-btn" aria-label="Play romantic music">
+      <span class="music-note-icon"><i class="fa-solid fa-music"></i></span>
+      <div class="music-bars" id="music-bars">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <span class="music-label" id="music-label">Play Music</span>
+    </button>
+  </div>
+
+  <!-- Opening Envelope Modal / Welcome Overlay -->
+  <div class="envelope-overlay" id="envelope-overlay">
+    <!-- Floating Ambient Sparkles -->
+    <div class="envelope-ambient-particles">
+      <span class="sparkle-dot sp-1">✦</span>
+      <span class="sparkle-dot sp-2">✧</span>
+      <span class="sparkle-dot sp-3">✦</span>
+      <span class="sparkle-dot sp-4">✧</span>
+      <span class="sparkle-dot sp-5">✦</span>
+    </div>
+
+    <div class="envelope-container">
+      <div class="envelope-card-glow"></div>
+      
+      <!-- Realistic Luxury Royal Wedding Envelope Card -->
+      <div class="royal-envelope-card" id="royal-envelope-card">
+        
+        <!-- Luxury Vintage Postmark Stamp -->
+        <div class="luxury-stamp">
+          <div class="stamp-scallop-border"></div>
+          <div class="stamp-content">
+            <span class="stamp-heart"><i class="fa-solid fa-heart"></i></span>
+            <span class="stamp-date">18 DEC</span>
+            <span class="stamp-year">2026</span>
+          </div>
+          <!-- Royal Seal Cancellation Mark -->
+          <div class="postmark-seal">
+            <svg viewBox="0 0 54 54" class="postmark-svg">
+              <circle cx="27" cy="27" r="24" stroke="currentColor" stroke-width="1.2" fill="none" stroke-dasharray="3, 2.5" />
+              <text x="27" y="24" text-anchor="middle" class="postmark-txt">WEDDING</text>
+              <text x="27" y="34" text-anchor="middle" class="postmark-sub">EDITION</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Envelope Body Surface with Gold Foil Details -->
+        <div class="envelope-face">
+          <!-- Ornate Gold Foil Filigree Corner Ornaments -->
+          <span class="gold-corner corner-tl">❖</span>
+          <span class="gold-corner corner-tr">❖</span>
+          <span class="gold-corner corner-bl">❖</span>
+          <span class="gold-corner corner-br">❖</span>
+          
+          <div class="envelope-header-wrap">
+            <div class="royal-crest-line">
+              <span class="crest-leaf">❧</span>
+              <span class="crest-tag">WEDDING INVITATION</span>
+              <span class="crest-leaf">☙</span>
+            </div>
+            <p class="envelope-subtag">SAVE OUR DATE</p>
+          </div>
+
+          <!-- Couple Names with Regal Typography -->
+          <div class="envelope-names-showcase">
+            <h2 class="envelope-bride">Chaitali</h2>
+            <div class="envelope-amp-wrap">
+              <span class="amp-line"></span>
+              <span class="envelope-amp">&amp;</span>
+              <span class="amp-line"></span>
+            </div>
+            <h2 class="envelope-groom">Vishal</h2>
+          </div>
+
+          <div class="envelope-date-capsule">
+            <span class="capsule-icon">✨</span>
+            <span class="capsule-text">Wednesday, 18 December 2026</span>
+            <span class="capsule-icon">✨</span>
+          </div>
+
+          <!-- Luxury Satin Ribbon Sash across the envelope -->
+          <div class="envelope-sash">
+            <div class="sash-gold-thread top-thread"></div>
+            <div class="sash-gold-thread bottom-thread"></div>
+          </div>
+
+          <!-- Masterpiece 3D Embossed Golden Wax Seal -->
+          <div class="royal-wax-seal-btn" id="open-invitation-btn" title="Tap to Open Invitation">
+            <div class="wax-seal-scallop-ring"></div>
+            <div class="wax-seal-disc">
+              <div class="wax-inner-bevel">
+                <span class="wax-monogram">C &amp; V</span>
+                <span class="wax-subtext">18 • 12</span>
+              </div>
+              <div class="wax-glint-shine"></div>
+            </div>
+            <div class="seal-ripple-wave wave-1"></div>
+            <div class="seal-ripple-wave wave-2"></div>
+            
+            <div class="wax-action-chip">
+              <i class="fa-solid fa-sparkles"></i>
+              <span>TAP TO UNSEAL</span>
+              <i class="fa-solid fa-sparkles"></i>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <p class="open-instruction">
+        <i class="fa-regular fa-envelope-open"></i> Tap the golden seal to open your invitation
+      </p>
+    </div>
+  </div>
+
+  <!-- Main Mobile App Wrapper -->
+  <main class="mobile-wrapper" id="main-content">
+    
+    <!-- Hero Section -->
+    <header class="hero-section" id="home">
+      <!-- Decorative Washi Tapes & Doodles -->
+      <div class="washi-tape washi-top-left"></div>
+      <div class="washi-tape washi-top-right"></div>
+      
+      <div class="hero-badge">
+        <span class="sparkle-icon">✨</span>
+        <span class="badge-text">We're Getting Married!</span>
+        <span class="sparkle-icon">✨</span>
+      </div>
+
+      <p class="sub-invitation">Together with our families, we invite you to celebrate the wedding of</p>
+      
+      <div class="couple-names-wrap">
+        <h1 class="couple-names">
+          <span class="name bride-name">Chaitali</span>
+          <span class="ampersand">&amp;</span>
+          <span class="name groom-name">Vishal</span>
+        </h1>
+      </div>
+
+      <div class="date-capsule">
+        <i class="fa-regular fa-calendar-heart calendar-icon"></i>
+        <span>Wednesday, 18th December</span>
+      </div>
+
+      <!-- Hero Main Floating Sticker -->
+      <div class="hero-sticker-showcase">
+        <div class="sticker-interactive-card tilt-effect" data-tilt>
+          <div class="sticker-die-cut-wrapper">
+            <img src="assets/stickers/sticker_1_together.png" alt="Chaitali & Vishal Together" class="hero-sticker-img" />
+            <div class="sticker-shine"></div>
+          </div>
+          <div class="sticker-tag tag-pink">
+            <i class="fa-solid fa-sparkles"></i> Forever Begins Here
+          </div>
+        </div>
+        <!-- Little Floating Doodles -->
+        <div class="floating-doodle doodle-heart-1">❤️</div>
+        <div class="floating-doodle doodle-sparkle-1">✨</div>
+        <div class="floating-doodle doodle-leaf-1">🌿</div>
+        <div class="floating-doodle doodle-love-msg">Made for Each Other ♡</div>
+      </div>
+
+      <!-- Live Countdown Section -->
+      <div class="countdown-card">
+        <h3 class="countdown-title">
+          <i class="fa-solid fa-heart-pulse"></i> Counting Down to Forever
+        </h3>
+        <div class="countdown-grid" id="countdown-timer">
+          <div class="timer-box">
+            <span class="timer-number" id="cd-days">00</span>
+            <span class="timer-unit">Days</span>
+          </div>
+          <div class="timer-sep">:</div>
+          <div class="timer-box">
+            <span class="timer-number" id="cd-hours">00</span>
+            <span class="timer-unit">Hours</span>
+          </div>
+          <div class="timer-sep">:</div>
+          <div class="timer-box">
+            <span class="timer-number" id="cd-mins">00</span>
+            <span class="timer-unit">Mins</span>
+          </div>
+          <div class="timer-sep">:</div>
+          <div class="timer-box">
+            <span class="timer-number" id="cd-secs">00</span>
+            <span class="timer-unit">Secs</span>
+          </div>
+        </div>
+        <p class="auspicious-note">🌸 A journey of a thousand miles begins with 7 vows 🌸</p>
+      </div>
+
+      <div class="scroll-down-hint">
+        <span>Swipe down to explore</span>
+        <i class="fa-solid fa-chevron-down bounce-arrow"></i>
+      </div>
+    </header>
+
+    <!-- Our Cute Story Section (Arranged by Destiny) -->
+    <section class="section story-section" id="story">
+      <div class="section-header">
+        <span class="section-subtitle">Written in the Stars</span>
+        <h2 class="section-title">Our Sweet Journey</h2>
+        <div class="section-divider">
+          <span class="divider-line"></span>
+          <span class="divider-heart">♡</span>
+          <span class="divider-line"></span>
+        </div>
+        <p class="story-intro">"Arranged by families, united by destiny, blessed with pure love."</p>
+      </div>
+
+      <div class="story-polaroid-grid">
+        
+        <!-- Milestone 1 -->
+        <div class="story-card tilt-effect">
+          <div class="polaroid-pin">📍</div>
+          <div class="story-img-wrap">
+            <img src="assets/stickers/sticker_7_gaze.png" alt="First Meeting" class="story-sticker-img" />
+          </div>
+          <div class="story-card-body">
+            <span class="story-step-badge">Chapter 01</span>
+            <h4 class="story-step-title">The First Meeting ☕</h4>
+            <p class="story-step-desc">Two shy smiles across the living room, nervous glances, and a warm cup of chai that sparked an instant comfort.</p>
+          </div>
+        </div>
+
+        <!-- Milestone 2 -->
+        <div class="story-card tilt-effect">
+          <div class="polaroid-pin">🌸</div>
+          <div class="story-img-wrap">
+            <img src="assets/stickers/sticker_4_favourite.png" alt="Getting to Know Each Other" class="story-sticker-img" />
+          </div>
+          <div class="story-card-body">
+            <span class="story-step-badge">Chapter 02</span>
+            <h4 class="story-step-title">From Hello to Best Friends 💬</h4>
+            <p class="story-step-desc">Late evening phone calls, sharing childhood memories, discovering shared dreams, and realizing we found our person.</p>
+          </div>
+        </div>
+
+        <!-- Milestone 3 -->
+        <div class="story-card tilt-effect">
+          <div class="polaroid-pin">💍</div>
+          <div class="story-img-wrap">
+            <img src="assets/stickers/sticker_5_better_together.png" alt="Families Said Yes" class="story-sticker-img" />
+          </div>
+          <div class="story-card-body">
+            <span class="story-step-badge">Chapter 03</span>
+            <h4 class="story-step-title">Families Said 'Haan!' ✨</h4>
+            <p class="story-step-desc">With joyful tears, blessings from elders, and sweets shared all around, two beautiful families became one.</p>
+          </div>
+        </div>
+
+        <!-- Milestone 4 -->
+        <div class="story-card highlight-card tilt-effect">
+          <div class="polaroid-pin">💖</div>
+          <div class="story-img-wrap">
+            <img src="assets/stickers/sticker_2_always.png" alt="Forever Begins 18 Dec" class="story-sticker-img" />
+          </div>
+          <div class="story-card-body">
+            <span class="story-step-badge">Chapter 04</span>
+            <h4 class="story-step-title">The Big Day: 18 Dec 2026 💒</h4>
+            <p class="story-step-desc">Ready to take the sacred 7 pheras and step into our forever happiness hand-in-hand!</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Sticker Quote Banner -->
+      <div class="sticker-quote-banner">
+        <img src="assets/stickers/sticker_8_home.png" alt="Home in You" class="quote-sticker" />
+        <div class="quote-content">
+          <p class="quote-text">"You are my today and all of my tomorrows."</p>
+          <span class="quote-author">~ Vishal &amp; Chaitali</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Events & Celebrations Itinerary -->
+    <section class="section events-section" id="events">
+      <div class="section-header">
+        <span class="section-subtitle">Celebrations &amp; Rituals</span>
+        <h2 class="section-title">Wedding Itinerary</h2>
+        <div class="section-divider">
+          <span class="divider-line"></span>
+          <span class="divider-heart">♡</span>
+          <span class="divider-line"></span>
+        </div>
+        <p class="section-desc">Join us in every laughter, dance step, and holy blessing</p>
+      </div>
+
+      <div class="events-timeline">
+        
+        <!-- Event 1: Mehendi -->
+        <div class="event-card mehendi-theme">
+          <div class="event-icon-badge">🌿</div>
+          <div class="event-content">
+            <div class="event-header-row">
+              <span class="event-tag green-tag">Colorful Beginnings</span>
+              <span class="event-time"><i class="fa-regular fa-clock"></i> 04:00 PM onwards</span>
+            </div>
+            <h3 class="event-name">Mehendi Ceremony</h3>
+            <p class="event-date"><i class="fa-regular fa-calendar"></i> Monday, 16th December</p>
+            <p class="event-info">Fragrant henna, lively folk songs, dhol beats, and colorful attire to kick off the wedding festivities!</p>
+            <div class="event-dresscode">
+              <i class="fa-solid fa-shirt"></i> <strong>Dress Code:</strong> Traditional Green / Floral Pastels
+            </div>
+            <button class="btn-cal" onclick="addToCalendar('Mehendi Ceremony - Chaitali & Vishal', 'Mehendi celebration for Chaitali & Vishal', '2026-12-16T16:00:00', '2026-12-16T21:00:00')">
+              <i class="fa-regular fa-calendar-plus"></i> Add to Calendar
+            </button>
+          </div>
+        </div>
+
+        <!-- Event 2: Ring Ceremony -->
+        <div class="event-card ring-theme">
+          <div class="event-icon-badge">💍</div>
+          <div class="event-content">
+            <div class="event-header-row">
+              <span class="event-tag gold-tag">Glamour &amp; Rings</span>
+              <span class="event-time"><i class="fa-regular fa-clock"></i> 07:00 PM onwards</span>
+            </div>
+            <h3 class="event-name">Ring Ceremony &amp; Sangeet</h3>
+            <p class="event-date"><i class="fa-regular fa-calendar"></i> Monday, 16th December Evening</p>
+            <p class="event-info">Exchange of rings, musical performances by family, sparkling lights, and an evening filled with dancing!</p>
+            <div class="event-dresscode">
+              <i class="fa-solid fa-shirt"></i> <strong>Dress Code:</strong> Indo-Western Glam / Shimmer &amp; Suits
+            </div>
+            <button class="btn-cal" onclick="addToCalendar('Ring Ceremony & Sangeet - Chaitali & Vishal', 'Ring exchange & celebration dance night', '2026-12-16T19:00:00', '2026-12-16T23:30:00')">
+              <i class="fa-regular fa-calendar-plus"></i> Add to Calendar
+            </button>
+          </div>
+        </div>
+
+        <!-- Event 3: Haldi -->
+        <div class="event-card haldi-theme">
+          <div class="event-icon-badge">💛</div>
+          <div class="event-content">
+            <div class="event-header-row">
+              <span class="event-tag yellow-tag">Turmeric &amp; Sunshine</span>
+              <span class="event-time"><i class="fa-regular fa-clock"></i> 09:30 AM onwards</span>
+            </div>
+            <h3 class="event-name">Haldi Ceremony</h3>
+            <p class="event-date"><i class="fa-regular fa-calendar"></i> Tuesday, 17th December</p>
+            <p class="event-info">Smearing yellow love, flower showers, refreshing water splashes, and heartiest blessings from everyone!</p>
+            <div class="event-dresscode">
+              <i class="fa-solid fa-shirt"></i> <strong>Dress Code:</strong> Bright Yellow / Mustard Shades
+            </div>
+            <button class="btn-cal" onclick="addToCalendar('Haldi Ceremony - Chaitali & Vishal', 'Haldi rituals and flower shower', '2026-12-17T09:30:00', '2026-12-17T13:00:00')">
+              <i class="fa-regular fa-calendar-plus"></i> Add to Calendar
+            </button>
+          </div>
+        </div>
+
+        <!-- Event 4: The Royal Wedding -->
+        <div class="event-card wedding-theme grand-card">
+          <div class="event-icon-badge">🌸</div>
+          <div class="event-content">
+            <div class="event-header-row">
+              <span class="event-tag pink-tag">The Sacred Vows</span>
+              <span class="event-time"><i class="fa-regular fa-clock"></i> 11:30 AM (Auspicious Muhurtham)</span>
+            </div>
+            <h3 class="event-name">Wedding Ceremony &amp; Phere</h3>
+            <p class="event-date"><i class="fa-regular fa-calendar"></i> Wednesday, 18th December</p>
+            <p class="event-info">Varmala, sacred fire rituals, 7 vows, followed by royal feast and reception dinner with family &amp; friends.</p>
+            <div class="event-dresscode">
+              <i class="fa-solid fa-shirt"></i> <strong>Dress Code:</strong> Royal Ethnic / Sarees, Lehengas &amp; Sherwanis
+            </div>
+            <button class="btn-cal primary-btn" onclick="addToCalendar('Wedding of Chaitali & Vishal', 'The Sacred Phere & Wedding Celebrations', '2026-12-18T11:30:00', '2026-12-18T18:00:00')">
+              <i class="fa-regular fa-calendar-star"></i> Save The Big Day to Calendar
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Sticker Gallery / Fun Couple Moments -->
+    <section class="section gallery-section" id="gallery">
+      <div class="section-header">
+        <span class="section-subtitle">Tap stickers to pop hearts!</span>
+        <h2 class="section-title">Cute Sticker Board</h2>
+        <div class="section-divider">
+          <span class="divider-line"></span>
+          <span class="divider-heart">♡</span>
+          <span class="divider-line"></span>
+        </div>
+      </div>
+
+      <div class="sticker-scrapbook">
+        
+        <div class="scrapbook-item item-1 tap-sticker" data-caption="Kissed by love ♡">
+          <div class="pin-tack">📌</div>
+          <img src="assets/stickers/sticker_3_kiss.png" alt="Kiss Sticker" />
+          <span class="sticker-chip">Forever &amp; Always</span>
+        </div>
+
+        <div class="scrapbook-item item-2 tap-sticker" data-caption="You are my happy place!">
+          <div class="pin-tack">📌</div>
+          <img src="assets/stickers/sticker_9_happy_place.png" alt="Happy Place Sticker" />
+          <span class="sticker-chip">Cutest Moments</span>
+        </div>
+
+        <div class="scrapbook-item item-3 tap-sticker" data-caption="Hand in hand forever ♡">
+          <div class="pin-tack">📌</div>
+          <img src="assets/stickers/sticker_6_embrace.png" alt="Embrace Sticker" />
+          <span class="sticker-chip">Pure Love</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Venue Location & Directions -->
+    <section class="section venue-section" id="venue">
+      <div class="section-header">
+        <span class="section-subtitle">Where Love Blooms</span>
+        <h2 class="section-title">Venue &amp; Location</h2>
+        <div class="section-divider">
+          <span class="divider-line"></span>
+          <span class="divider-heart">♡</span>
+          <span class="divider-line"></span>
+        </div>
+      </div>
+
+      <div class="venue-card tilt-effect">
+        <div class="venue-badge">
+          <i class="fa-solid fa-location-dot"></i> Grand Celebration Hall
+        </div>
+        <h3 class="venue-title">The Royal Palms &amp; Convention Hall</h3>
+        <p class="venue-address">
+          <i class="fa-solid fa-map-pin"></i> <em>(Venue details will be updated soon / Contact family for exact hall location)</em>
+        </p>
+        
+        <!-- Interactive Map Preview Box -->
+        <div class="map-placeholder-box">
+          <div class="map-art">
+            <div class="map-pin-pulse">
+              <i class="fa-solid fa-heart"></i>
+            </div>
+            <p class="map-text">Click below to open Google Maps navigation</p>
+          </div>
+        </div>
+
+        <div class="venue-actions">
+          <a href="https://maps.google.com/?q=Wedding+Hall" target="_blank" rel="noopener" class="btn-map">
+            <i class="fa-solid fa-diamond-turn-right"></i> Open in Google Maps
+          </a>
+          <button class="btn-share-venue" onclick="shareInvitation()">
+            <i class="fa-solid fa-share-nodes"></i> Share Location
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RSVP & Sweet Blessings Wall -->
+    <section class="section rsvp-section" id="rsvp">
+      <div class="section-header">
+        <span class="section-subtitle">Your Presence is Our Gift</span>
+        <h2 class="section-title">Send Your Blessings</h2>
+        <div class="section-divider">
+          <span class="divider-line"></span>
+          <span class="divider-heart">♡</span>
+          <span class="divider-line"></span>
+        </div>
+        <p class="section-desc">Leave a sweet wish or blessing for the couple on our wall!</p>
+      </div>
+
+      <!-- Interactive Sticky Note Wish Box -->
+      <div class="wish-box-card">
+        <h3 class="wish-form-title">
+          <i class="fa-solid fa-pen-fancy"></i> Write on our Blessings Wall
+        </h3>
+        
+        <form id="blessing-form" class="blessing-form">
+          <div class="form-group">
+            <label for="guest-name"><i class="fa-solid fa-user-heart"></i> Your Name:</label>
+            <input type="text" id="guest-name" placeholder="e.g. Rahul &amp; Priya / Sharma Family" required />
+          </div>
+
+          <div class="form-group">
+            <label for="guest-message"><i class="fa-solid fa-message-heart"></i> Your Sweet Blessing:</label>
+            <textarea id="guest-message" rows="3" placeholder="Wishing you both a lifetime of happiness, laughter, and endless love! ♡" required></textarea>
+          </div>
+
+          <div class="emoji-selector">
+            <span class="emoji-label">Pick a sticker stamp:</span>
+            <div class="emoji-options">
+              <label><input type="radio" name="stamp" value="💖" checked /> <span>💖</span></label>
+              <label><input type="radio" name="stamp" value="🌸" /> <span>🌸</span></label>
+              <label><input type="radio" name="stamp" value="🥂" /> <span>🥂</span></label>
+              <label><input type="radio" name="stamp" value="🎉" /> <span>🎉</span></label>
+              <label><input type="radio" name="stamp" value="🧿" /> <span>🧿</span></label>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-wish-btn" id="submit-wish-btn">
+            <span>Post Sweet Wish</span> <i class="fa-solid fa-paper-plane-top"></i>
+          </button>
+        </form>
+
+        <!-- Live Sticky Notes Board -->
+        <div class="sticky-notes-board" id="sticky-notes-board">
+          <!-- Populated by JS & local storage -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+      <div class="footer-sticker-wrap">
+        <img src="assets/stickers/sticker_5_better_together.png" alt="Better Together" class="footer-sticker tap-sticker" />
+      </div>
+      <h3 class="footer-names">Chaitali &amp; Vishal</h3>
+      <p class="footer-date">18 . 12 . 2026</p>
+      <p class="footer-blessing">With best compliments from our families &amp; friends ♡</p>
+      <div class="footer-heart-btn" onclick="triggerMassiveConfetti()">
+        <i class="fa-solid fa-heart"></i> Tap for Blessing Shower
+      </div>
+      <p class="footer-credits">Crafted with endless love &amp; joy ✨</p>
+    </footer>
+
+  </main>
+
+
+
+  <script src="script.js"></script>
+</body>
+</html>
