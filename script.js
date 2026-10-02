@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initStickyNotes();
   initStickerInteractions();
   initSmoothScrolling();
+  initScrollRevealObserver();
+  initMobileScrollSparkles();
+  initScrollCardTiltMotion();
 });
 
 /* ==========================================================================
@@ -525,21 +528,47 @@ window.triggerMassiveConfetti = function() {
 };
 
 /* ==========================================================================
-   Smooth Scrolling Helpers
+   Smooth Slow Scrolling Helpers
    ========================================================================== */
+function slowSmoothScrollTo(targetY, duration = 1300) {
+  const startY = window.pageYOffset || document.documentElement.scrollTop;
+  const distance = targetY - startY;
+  let startTime = null;
+
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  function step(currentTime) {
+    if (startTime === null) startTime = currentTime;
+    const timeElapsed = currentTime - startTime;
+    const progress = Math.min(timeElapsed / duration, 1);
+    const ease = easeInOutCubic(progress);
+
+    window.scrollTo(0, startY + distance * ease);
+
+    if (timeElapsed < duration) {
+      window.requestAnimationFrame(step);
+    }
+  }
+
+  window.requestAnimationFrame(step);
+}
+
 function initSmoothScrolling() {
-  // Make the hero swipe/scroll down hint scroll smoothly to our story section
+  // Make the hero swipe/scroll down hint scroll smoothly & slowly to story section
   const scrollHint = document.querySelector('.scroll-down-hint');
   if (scrollHint) {
     scrollHint.addEventListener('click', () => {
       const storySection = document.getElementById('story');
       if (storySection) {
-        storySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const targetY = storySection.getBoundingClientRect().top + window.pageYOffset - 20;
+        slowSmoothScrollTo(targetY, 1400);
       }
     });
   }
 
-  // Smooth scroll for all internal anchor links
+  // Slow smooth scroll for all internal anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       const targetId = this.getAttribute('href');
@@ -547,11 +576,223 @@ function initSmoothScrolling() {
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
           e.preventDefault();
-          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const targetY = targetElement.getBoundingClientRect().top + window.pageYOffset - 20;
+          slowSmoothScrollTo(targetY, 1300);
         }
       }
     });
   });
+}
+
+/* ==========================================================================
+   Cute Mobile Scroll Animations & Observer
+   ========================================================================== */
+function initScrollRevealObserver() {
+  const revealElements = document.querySelectorAll('.scroll-reveal');
+  if (!revealElements.length) return;
+
+  // Stagger items inside containers
+  document.querySelectorAll('.story-polaroid-grid, .events-timeline, .sticker-scrapbook').forEach(container => {
+    const items = container.querySelectorAll('.scroll-reveal');
+    items.forEach((item, index) => {
+      item.style.transitionDelay = `${index * 0.12}s`;
+    });
+  });
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -30px 0px'
+  });
+
+  revealElements.forEach(el => observer.observe(el));
+}
+
+/* ==========================================================================
+   Cute Ambient Floating Rose Petals & Sparkles on Mobile Scroll
+   ========================================================================== */
+function initMobileScrollSparkles() {
+  const petalEmojis = ['🌸', '✨', '💖', '💕', '🌷', '🌿'];
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+  let overlay = null;
+
+  function createOverlay() {
+    overlay = document.createElement('div');
+    overlay.className = 'scroll-petals-overlay';
+    document.body.appendChild(overlay);
+  }
+
+  function spawnScrollPetal() {
+    if (!overlay) createOverlay();
+    
+    // Keep max 10 concurrent floating particles for smooth mobile 60fps performance
+    if (overlay.children.length >= 10) return;
+
+    const petal = document.createElement('span');
+    petal.className = 'floating-petal-item';
+    petal.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+    
+    const randomX = Math.random() * 90 + 5; // 5vw to 95vw
+    const randomSize = Math.random() * 8 + 14; // 14px to 22px
+    const randomDuration = Math.random() * 1.5 + 3.2; // 3.2s to 4.7s
+    const randomRotate = (Math.random() - 0.5) * 60;
+
+    petal.style.left = `${randomX}vw`;
+    petal.style.top = `${Math.random() * 25 + 15}vh`;
+    petal.style.fontSize = `${randomSize}px`;
+    petal.style.animationDuration = `${randomDuration}s`;
+    petal.style.transform = `rotate(${randomRotate}deg)`;
+
+    overlay.appendChild(petal);
+
+    setTimeout(() => {
+      if (petal.parentNode) {
+        petal.parentNode.removeChild(petal);
+      }
+    }, randomDuration * 1000);
+  }
+
+  let scrollDistance = 0;
+  window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+    scrollDistance += Math.abs(currentScrollY - lastScrollY);
+    lastScrollY = currentScrollY;
+
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        if (scrollDistance > 160) {
+          spawnScrollPetal();
+          scrollDistance = 0;
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+}
+
+/* ==========================================================================
+   Scroll-Driven Dynamic Card Tilt & Float Motion (No Click Required)
+   ========================================================================== */
+function initScrollCardTiltMotion() {
+  const storyCards = document.querySelectorAll('.story-card');
+  const eventCards = document.querySelectorAll('.event-card');
+  const scrapbookItems = document.querySelectorAll('.scrapbook-item');
+  const venueCard = document.querySelector('.venue-card');
+  const heroCard = document.querySelector('.hero-sticker-showcase .sticker-interactive-card');
+  const quoteBanner = document.querySelector('.sticker-quote-banner');
+
+  let isTicking = false;
+
+  function updateCardTransforms() {
+    const windowHeight = window.innerHeight;
+
+    // 1. Story Polaroid Cards: Continuous gentle tilt sway as you scroll past
+    storyCards.forEach((card, index) => {
+      const rect = card.getBoundingClientRect();
+      if (rect.bottom > -50 && rect.top < windowHeight + 50) {
+        const centerOffset = (rect.top + rect.height / 2 - windowHeight / 2) / (windowHeight / 2);
+        const clamped = Math.max(-1.2, Math.min(1.2, centerOffset));
+        
+        // Alternate tilt angles
+        const baseAngle = (index % 2 === 0) ? -1.5 : 1.5;
+        const tiltAngle = baseAngle + clamped * ((index % 2 === 0) ? 3.2 : -3.2);
+        const yOffset = clamped * -6;
+        const scale = 1 - Math.abs(clamped) * 0.02;
+
+        card.style.transform = `perspective(800px) rotate(${tiltAngle.toFixed(2)}deg) translateY(${yOffset.toFixed(1)}px) scale(${scale.toFixed(3)})`;
+      }
+    });
+
+    // 2. Events Timeline Cards: Responsive slide emphasis as you scroll
+    eventCards.forEach((card) => {
+      const rect = card.getBoundingClientRect();
+      if (rect.bottom > -50 && rect.top < windowHeight + 50) {
+        const centerOffset = (rect.top + rect.height / 2 - windowHeight / 2) / (windowHeight / 2);
+        const clamped = Math.max(-1.2, Math.min(1.2, centerOffset));
+        
+        const xOffset = (1 - Math.abs(clamped)) * 5;
+        const scale = 1 + (1 - Math.abs(clamped)) * 0.015;
+
+        card.style.transform = `translateX(${xOffset.toFixed(1)}px) scale(${scale.toFixed(3)})`;
+
+        const badge = card.querySelector('.event-icon-badge');
+        if (badge) {
+          const badgeRotate = clamped * -15;
+          badge.style.transform = `rotate(${badgeRotate.toFixed(1)}deg)`;
+        }
+      }
+    });
+
+    // 3. Scrapbook Stickers: Floating peel & tilt
+    scrapbookItems.forEach((item, index) => {
+      const rect = item.getBoundingClientRect();
+      if (rect.bottom > -50 && rect.top < windowHeight + 50) {
+        const centerOffset = (rect.top + rect.height / 2 - windowHeight / 2) / (windowHeight / 2);
+        const clamped = Math.max(-1.2, Math.min(1.2, centerOffset));
+        
+        const baseAngles = [-2, 2, -1];
+        const baseAngle = baseAngles[index % baseAngles.length];
+        const tiltAngle = baseAngle + clamped * 3.5;
+        const yOffset = clamped * -5;
+
+        item.style.transform = `perspective(600px) rotate(${tiltAngle.toFixed(2)}deg) translateY(${yOffset.toFixed(1)}px)`;
+      }
+    });
+
+    // 4. Hero Sticker: 3D Parallax tilt
+    if (heroCard) {
+      const rect = heroCard.getBoundingClientRect();
+      if (rect.bottom > -50 && rect.top < windowHeight + 50) {
+        const centerOffset = (rect.top + rect.height / 2 - windowHeight / 2) / (windowHeight / 2);
+        const clamped = Math.max(-1.2, Math.min(1.2, centerOffset));
+        
+        const tiltAngle = clamped * 4;
+        const yOffset = clamped * -10;
+
+        heroCard.style.transform = `perspective(700px) rotate(${tiltAngle.toFixed(2)}deg) translateY(${yOffset.toFixed(1)}px)`;
+      }
+    }
+
+    // 5. Quote Banner: Soft float sway
+    if (quoteBanner) {
+      const rect = quoteBanner.getBoundingClientRect();
+      if (rect.bottom > -50 && rect.top < windowHeight + 50) {
+        const centerOffset = (rect.top + rect.height / 2 - windowHeight / 2) / (windowHeight / 2);
+        const clamped = Math.max(-1.2, Math.min(1.2, centerOffset));
+        quoteBanner.style.transform = `scale(${ (1 + (1 - Math.abs(clamped)) * 0.02).toFixed(3) }) translateY(${ (clamped * -4).toFixed(1) }px)`;
+      }
+    }
+
+    // 6. Venue Card
+    if (venueCard) {
+      const rect = venueCard.getBoundingClientRect();
+      if (rect.bottom > -50 && rect.top < windowHeight + 50) {
+        const centerOffset = (rect.top + rect.height / 2 - windowHeight / 2) / (windowHeight / 2);
+        const clamped = Math.max(-1.2, Math.min(1.2, centerOffset));
+        venueCard.style.transform = `perspective(800px) rotate(${ (clamped * 1.2).toFixed(2) }deg) scale(${ (1 + (1 - Math.abs(clamped)) * 0.015).toFixed(3) })`;
+      }
+    }
+
+    isTicking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!isTicking) {
+      window.requestAnimationFrame(updateCardTransforms);
+      isTicking = true;
+    }
+  }, { passive: true });
+
+  // Initial calculation
+  updateCardTransforms();
 }
 
 
