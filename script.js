@@ -1,5 +1,5 @@
 /**
- * Chaitali & Vishal - Wedding Invitation Website Interactive Logic
+ * Vishal & Chaitali - Wedding Invitation Website Interactive Logic
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMusicPlayer();
   initStickyNotes();
   initStickerInteractions();
+  initSmoothScrolling();
 });
 
 /* ==========================================================================
@@ -163,15 +164,33 @@ function initTapHeartsCanvas() {
 }
 
 /* ==========================================================================
-   Web Audio Romantic Synthesizer / Music Player
+   Background Music Player (MP4 / MP3 File with Synthesizer Fallback)
    ========================================================================== */
 let audioCtx = null;
 let isPlaying = false;
 let musicInterval = null;
+let isFileAudio = false;
 
 function initMusicPlayer() {
   const musicBtn = document.getElementById('music-btn');
+  const weddingAudio = document.getElementById('wedding-audio');
   if (!musicBtn) return;
+
+  if (weddingAudio) {
+    weddingAudio.addEventListener('play', () => {
+      isPlaying = true;
+      isFileAudio = true;
+      updateMusicUI(true);
+    });
+    weddingAudio.addEventListener('pause', () => {
+      isPlaying = false;
+      updateMusicUI(false);
+    });
+    weddingAudio.addEventListener('ended', () => {
+      isPlaying = false;
+      updateMusicUI(false);
+    });
+  }
 
   musicBtn.addEventListener('click', () => {
     if (isPlaying) {
@@ -183,6 +202,29 @@ function initMusicPlayer() {
 }
 
 function startRomanticMusic() {
+  const weddingAudio = document.getElementById('wedding-audio');
+
+  if (weddingAudio) {
+    const playPromise = weddingAudio.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          isPlaying = true;
+          isFileAudio = true;
+          updateMusicUI(true);
+        })
+        .catch(() => {
+          // If file not found or browser blocked, fallback to Web Audio Synth
+          startSynthMelody();
+        });
+      return;
+    }
+  }
+
+  startSynthMelody();
+}
+
+function startSynthMelody() {
   if (!audioCtx) {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     audioCtx = new AudioContext();
@@ -193,6 +235,7 @@ function startRomanticMusic() {
   }
 
   isPlaying = true;
+  isFileAudio = false;
   updateMusicUI(true);
 
   // Soft romantic melody notes (Flute & Piano chords in D Major / Kalyani Raga vibe)
@@ -207,7 +250,7 @@ function startRomanticMusic() {
   playWarmChord(293.66, 0.4); // D major base
 
   musicInterval = setInterval(() => {
-    if (!isPlaying) return;
+    if (!isPlaying || isFileAudio) return;
     const freq = notes[step % notes.length];
     playBellTone(freq, 0.15, 1.2);
     
@@ -221,6 +264,10 @@ function startRomanticMusic() {
 
 function stopRomanticMusic() {
   isPlaying = false;
+  const weddingAudio = document.getElementById('wedding-audio');
+  if (weddingAudio && !weddingAudio.paused) {
+    weddingAudio.pause();
+  }
   if (musicInterval) {
     clearInterval(musicInterval);
     musicInterval = null;
@@ -329,7 +376,7 @@ function initStickerInteractions() {
 const DEFAULT_BLESSINGS = [
   {
     name: "Aarti & Family",
-    message: "Heartiest congratulations Chaitali & Vishal! Wishing you both a lifetime of smiles, endless romance, and happy adventures together! ✨",
+    message: "Heartiest congratulations Vishal & Chaitali! Wishing you both a lifetime of smiles, endless romance, and happy adventures together! ✨",
     stamp: "💖",
     time: "Just now"
   },
@@ -351,7 +398,7 @@ function initStickyNotes() {
   const form = document.getElementById('blessing-form');
   const board = document.getElementById('sticky-notes-board');
 
-  let savedWishes = JSON.parse(localStorage.getItem('cv_wedding_wishes')) || DEFAULT_BLESSINGS;
+  let savedWishes = JSON.parse(localStorage.getItem('vc_wedding_wishes')) || JSON.parse(localStorage.getItem('cv_wedding_wishes')) || DEFAULT_BLESSINGS;
 
   function renderWishes() {
     board.innerHTML = '';
@@ -389,7 +436,7 @@ function initStickyNotes() {
       };
 
       savedWishes.unshift(newWish);
-      localStorage.setItem('cv_wedding_wishes', JSON.stringify(savedWishes));
+      localStorage.setItem('vc_wedding_wishes', JSON.stringify(savedWishes));
       renderWishes();
 
       form.reset();
@@ -429,8 +476,8 @@ window.addToCalendar = function(title, description, startIso, endIso) {
 
 window.shareInvitation = function() {
   const shareData = {
-    title: 'Chaitali & Vishal Wedding Invitation',
-    text: 'You are cordially invited to celebrate the wedding of Chaitali & Vishal on 18th December! 💖',
+    title: 'Vishal & Chaitali Wedding Invitation',
+    text: 'You are cordially invited to celebrate the wedding of Vishal & Chaitali on 18th December! 💖',
     url: window.location.href
   };
 
@@ -476,5 +523,35 @@ window.triggerMassiveConfetti = function() {
     scalar: 1.2
   });
 };
+
+/* ==========================================================================
+   Smooth Scrolling Helpers
+   ========================================================================== */
+function initSmoothScrolling() {
+  // Make the hero swipe/scroll down hint scroll smoothly to our story section
+  const scrollHint = document.querySelector('.scroll-down-hint');
+  if (scrollHint) {
+    scrollHint.addEventListener('click', () => {
+      const storySection = document.getElementById('story');
+      if (storySection) {
+        storySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
+
+  // Smooth scroll for all internal anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href');
+      if (targetId && targetId !== '#') {
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          e.preventDefault();
+          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+  });
+}
 
 

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Chaitali & Vishal - Wedding Invitation Website Styles
+   Vishal & Chaitali - Wedding Invitation Website Styles
    Theme: Romantic Pastel Sticker Book & Love Scrapbook
    ========================================================================== */
 
@@ -45,6 +45,7 @@ html {
 }
 
 body {
+  scroll-behavior: smooth;
   font-family: var(--font-sans);
   background-color: var(--bg-cream);
   color: var(--text-main);
@@ -920,6 +921,18 @@ body {
   color: var(--rose-primary);
   font-size: 0.75rem;
   font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.scroll-down-hint:hover {
+  transform: translateY(2px);
+  opacity: 0.85;
+}
+
+.scroll-down-hint:active {
+  transform: translateY(4px);
 }
 
 .bounce-arrow {

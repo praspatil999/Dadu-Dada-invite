@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Chaitali & Vishal - Wedding Invitation</title>
-  <meta name="description" content="Join us in celebrating the wedding of Chaitali & Vishal on December 18th. Together Forever ♡" />
+  <title>Vishal & Chaitali - Wedding Invitation</title>
+  <meta name="description" content="Join us in celebrating the wedding of Vishal & Chaitali on December 18th. Together Forever ♡" />
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,6 +21,13 @@
 
   <!-- Floating Heart Canvas for interactive background taps -->
   <canvas id="tap-hearts-canvas"></canvas>
+
+  <!-- Background Romantic Audio / Custom Song -->
+  <audio id="wedding-audio" loop preload="auto">
+    <source src="assets/song.mp4" type="video/mp4">
+    <source src="assets/song.mp4" type="audio/mp4">
+    <source src="assets/song.mp3" type="audio/mpeg">
+  </audio>
 
   <!-- Cute Music Player Pill (Fixed Top Right) -->
   <div class="music-pill" id="music-pill" title="Toggle Music">
@@ -90,13 +97,13 @@
 
           <!-- Couple Names with Regal Typography -->
           <div class="envelope-names-showcase">
-            <h2 class="envelope-bride">Chaitali</h2>
+            <h2 class="envelope-groom">Vishal</h2>
             <div class="envelope-amp-wrap">
               <span class="amp-line"></span>
               <span class="envelope-amp">&amp;</span>
               <span class="amp-line"></span>
             </div>
-            <h2 class="envelope-groom">Vishal</h2>
+            <h2 class="envelope-bride">Chaitali</h2>
           </div>
 
           <div class="envelope-date-capsule">
@@ -116,7 +123,7 @@
             <div class="wax-seal-scallop-ring"></div>
             <div class="wax-seal-disc">
               <div class="wax-inner-bevel">
-                <span class="wax-monogram">C &amp; V</span>
+                <span class="wax-monogram">V &amp; C</span>
                 <span class="wax-subtext">18 • 12</span>
               </div>
               <div class="wax-glint-shine"></div>
@@ -159,9 +166,9 @@
       
       <div class="couple-names-wrap">
         <h1 class="couple-names">
-          <span class="name bride-name">Chaitali</span>
-          <span class="ampersand">&amp;</span>
           <span class="name groom-name">Vishal</span>
+          <span class="ampersand">&amp;</span>
+          <span class="name bride-name">Chaitali</span>
         </h1>
       </div>
 
@@ -174,7 +181,7 @@
       <div class="hero-sticker-showcase">
         <div class="sticker-interactive-card tilt-effect" data-tilt>
           <div class="sticker-die-cut-wrapper">
-            <img src="assets/stickers/sticker_1_together.png" alt="Chaitali & Vishal Together" class="hero-sticker-img" />
+            <img src="assets/stickers/sticker_1_together.png" alt="Vishal & Chaitali Together" class="hero-sticker-img" />
             <div class="sticker-shine"></div>
           </div>
           <div class="sticker-tag tag-pink">
@@ -331,7 +338,7 @@
             <div class="event-dresscode">
               <i class="fa-solid fa-shirt"></i> <strong>Dress Code:</strong> Traditional Green / Floral Pastels
             </div>
-            <button class="btn-cal" onclick="addToCalendar('Mehendi Ceremony - Chaitali & Vishal', 'Mehendi celebration for Chaitali & Vishal', '2026-12-16T16:00:00', '2026-12-16T21:00:00')">
+            <button class="btn-cal" onclick="addToCalendar('Mehendi Ceremony - Vishal & Chaitali', 'Mehendi celebration for Vishal & Chaitali', '2026-12-16T16:00:00', '2026-12-16T21:00:00')">
               <i class="fa-regular fa-calendar-plus"></i> Add to Calendar
             </button>
           </div>
@@ -351,7 +358,7 @@
             <div class="event-dresscode">
               <i class="fa-solid fa-shirt"></i> <strong>Dress Code:</strong> Indo-Western Glam / Shimmer &amp; Suits
             </div>
-            <button class="btn-cal" onclick="addToCalendar('Ring Ceremony & Sangeet - Chaitali & Vishal', 'Ring exchange & celebration dance night', '2026-12-16T19:00:00', '2026-12-16T23:30:00')">
+            <button class="btn-cal" onclick="addToCalendar('Ring Ceremony & Sangeet - Vishal & Chaitali', 'Ring exchange & celebration dance night', '2026-12-16T19:00:00', '2026-12-16T23:30:00')">
               <i class="fa-regular fa-calendar-plus"></i> Add to Calendar
             </button>
           </div>
@@ -371,7 +378,7 @@
             <div class="event-dresscode">
               <i class="fa-solid fa-shirt"></i> <strong>Dress Code:</strong> Bright Yellow / Mustard Shades
             </div>
-            <button class="btn-cal" onclick="addToCalendar('Haldi Ceremony - Chaitali & Vishal', 'Haldi rituals and flower shower', '2026-12-17T09:30:00', '2026-12-17T13:00:00')">
+            <button class="btn-cal" onclick="addToCalendar('Haldi Ceremony - Vishal & Chaitali', 'Haldi rituals and flower shower', '2026-12-17T09:30:00', '2026-12-17T13:00:00')">
               <i class="fa-regular fa-calendar-plus"></i> Add to Calendar
             </button>
           </div>
@@ -391,7 +398,7 @@
             <div class="event-dresscode">
               <i class="fa-solid fa-shirt"></i> <strong>Dress Code:</strong> Royal Ethnic / Sarees, Lehengas &amp; Sherwanis
             </div>
-            <button class="btn-cal primary-btn" onclick="addToCalendar('Wedding of Chaitali & Vishal', 'The Sacred Phere & Wedding Celebrations', '2026-12-18T11:30:00', '2026-12-18T18:00:00')">
+            <button class="btn-cal primary-btn" onclick="addToCalendar('Wedding of Vishal & Chaitali', 'The Sacred Phere & Wedding Celebrations', '2026-12-18T11:30:00', '2026-12-18T18:00:00')">
               <i class="fa-regular fa-calendar-star"></i> Save The Big Day to Calendar
             </button>
           </div>
@@ -535,7 +542,7 @@
       <div class="footer-sticker-wrap">
         <img src="assets/stickers/sticker_5_better_together.png" alt="Better Together" class="footer-sticker tap-sticker" />
       </div>
-      <h3 class="footer-names">Chaitali &amp; Vishal</h3>
+      <h3 class="footer-names">Vishal &amp; Chaitali</h3>
       <p class="footer-date">18 . 12 . 2026</p>
       <p class="footer-blessing">With best compliments from our families &amp; friends ♡</p>
       <div class="footer-heart-btn" onclick="triggerMassiveConfetti()">
