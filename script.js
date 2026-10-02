@@ -180,6 +180,9 @@ function initMusicPlayer() {
   if (!musicBtn) return;
 
   if (weddingAudio) {
+    // Set gentle background music volume (35%)
+    weddingAudio.volume = 0.35;
+
     weddingAudio.addEventListener('play', () => {
       isPlaying = true;
       isFileAudio = true;
@@ -208,6 +211,7 @@ function startRomanticMusic() {
   const weddingAudio = document.getElementById('wedding-audio');
 
   if (weddingAudio) {
+    weddingAudio.volume = 0.35; // Gentle soothing romantic volume
     const playPromise = weddingAudio.play();
     if (playPromise !== undefined) {
       playPromise
@@ -250,16 +254,16 @@ function startSynthMelody() {
   let step = 0;
   if (musicInterval) clearInterval(musicInterval);
 
-  playWarmChord(293.66, 0.4); // D major base
+  playWarmChord(293.66, 0.18); // D major base
 
   musicInterval = setInterval(() => {
     if (!isPlaying || isFileAudio) return;
     const freq = notes[step % notes.length];
-    playBellTone(freq, 0.15, 1.2);
+    playBellTone(freq, 0.06, 1.2);
     
     // Add harmonic chord on every 4th beat
     if (step % 4 === 0) {
-      playWarmChord(freq * 0.5, 0.25);
+      playWarmChord(freq * 0.5, 0.1);
     }
     step++;
   }, 600);
@@ -292,7 +296,7 @@ function updateMusicUI(playing) {
   }
 }
 
-function playBellTone(freq, gainVal = 0.1, duration = 1.2) {
+function playBellTone(freq, gainVal = 0.06, duration = 1.2) {
   if (!audioCtx) return;
   const now = audioCtx.currentTime;
   const osc = audioCtx.createOscillator();
@@ -312,7 +316,7 @@ function playBellTone(freq, gainVal = 0.1, duration = 1.2) {
   osc.stop(now + duration);
 }
 
-function playWarmChord(freq, gainVal = 0.2) {
+function playWarmChord(freq, gainVal = 0.1) {
   if (!audioCtx) return;
   const chordFreqs = [freq, freq * 1.25, freq * 1.5];
   chordFreqs.forEach(f => {
@@ -342,7 +346,7 @@ function playChimeSound() {
   const chimes = [523.25, 659.25, 783.99, 1046.50];
   chimes.forEach((f, idx) => {
     setTimeout(() => {
-      playBellTone(f, 0.2, 1.5);
+      playBellTone(f, 0.08, 1.5);
     }, idx * 120);
   });
 }
