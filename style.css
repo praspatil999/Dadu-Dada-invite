@@ -1769,8 +1769,15 @@ body {
 }
 
 .footer-credits {
-  font-size: 0.7rem;
-  color: #B29D9F;
+  font-size: 0.76rem;
+  color: #9E8588;
+  letter-spacing: 0.3px;
+  font-weight: 500;
+}
+
+.footer-credits .credit-name {
+  font-weight: 700;
+  color: var(--rose-primary);
 }
 
 
